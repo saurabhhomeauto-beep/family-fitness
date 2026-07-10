@@ -831,16 +831,16 @@ function renderLayout() {
   mount(`
   <div class="min-h-screen bg-gray-950 text-white flex flex-col">
     <!-- Header -->
-    <div class="sticky top-0 bg-gray-950/90 backdrop-blur-md border-b border-gray-800 px-5 py-4 flex items-center justify-between z-10">
-      <div>
-        <p class="text-xs text-gray-400">${fmtDate()}</p>
-        <h1 class="font-bold text-base leading-tight">${greeting()}, ${S.profile?.display_name || 'there'} 👋</h1>
-        <p id="streak-indicator" class="text-xs text-amber-400 font-semibold mt-0.5 ${(S.streakInfo?.current || 0) > 0 ? '' : 'hidden'}">${(S.streakInfo?.current || 0) > 0 ? `🔥 ${S.streakInfo.current}-day streak` : ''}</p>
+    <div class="sticky top-0 bg-gray-950/90 backdrop-blur-md border-b border-gray-800 px-4 py-4 flex items-center justify-between gap-2 z-10">
+      <div class="min-w-0 flex-1">
+        <p class="text-xs text-gray-400 truncate">${fmtDate()}</p>
+        <h1 class="font-bold text-base leading-tight truncate">${greeting()}, ${S.profile?.display_name || 'there'} 👋</h1>
+        <p id="streak-indicator" class="text-xs text-amber-400 font-semibold mt-0.5 truncate ${(S.streakInfo?.current || 0) > 0 ? '' : 'hidden'}">${(S.streakInfo?.current || 0) > 0 ? `🔥 ${S.streakInfo.current}-day streak` : ''}</p>
       </div>
-      <div class="flex items-center gap-2">
-        ${isAdmin ? `<button onclick="showAdminView()" class="px-3 py-1.5 text-xs bg-violet-600 hover:bg-violet-500 rounded-xl font-semibold transition-colors">Family</button>` : ''}
-        <button onclick="showSettingsView()" class="w-8 h-8 flex items-center justify-center text-sm bg-gray-800 hover:bg-gray-700 rounded-xl transition-colors" title="Settings">⚙️</button>
-        <button onclick="handleLogout()" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 rounded-xl font-semibold transition-colors">Log out</button>
+      <div class="flex items-center gap-2 shrink-0">
+        ${isAdmin ? `<button onclick="showAdminView()" class="px-3 py-1.5 text-xs bg-violet-600 hover:bg-violet-500 rounded-xl font-semibold transition-colors whitespace-nowrap">Family</button>` : ''}
+        <button onclick="showSettingsView()" class="w-8 h-8 flex items-center justify-center text-sm bg-gray-800 hover:bg-gray-700 rounded-xl transition-colors shrink-0" title="Settings">⚙️</button>
+        <button onclick="handleLogout()" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 rounded-xl font-semibold transition-colors whitespace-nowrap">Log out</button>
       </div>
     </div>
 
