@@ -166,7 +166,10 @@ const confirmModal = (title, bodyHtml, onConfirm, label = 'Save') => {
       </div>
     </div>`
   el.querySelector('#_m_cancel').onclick = () => el.remove()
-  el.querySelector('#_m_confirm').onclick = () => { el.remove(); onConfirm() }
+  // Run onConfirm BEFORE removing the modal. Each caller reads its input
+  // values synchronously (before its first await), so the inputs must still
+  // exist in the DOM at that moment. Removing first left them null → crash.
+  el.querySelector('#_m_confirm').onclick = () => { onConfirm(); el.remove() }
 }
 
 // ─── Ring SVG ────────────────────────────────────────────────
