@@ -1,7 +1,7 @@
 // sw.js — Service Worker for Family Fitness Hub
 // Strategy: Cache-first for static assets, network-first for API calls.
 
-const CACHE_NAME = 'fithub-v1'
+const CACHE_NAME = 'fithub-v2'
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -51,7 +51,32 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  // Cache-first for static assets
+  // App shell (navigations, HTML, and our own JS) — NETWORK-FIRST so a new
+  // deploy is picked up immediately. Cache-first here meant a code push was
+  // masked by the stale cached copy until the cache name changed. We still
+  // fall back to the cached copy when offline.
+  const isAppShell =
+    request.mode === 'navigate' ||
+    url.pathname === '/' ||
+    url.pathname.endsWith('.html') ||
+    url.pathname.endsWith('.js')
+
+  if (isAppShell) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone()
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
+          }
+          return response
+        })
+        .catch(() => caches.match(request))
+    )
+    return
+  }
+
+  // Cache-first for everything else truly static (manifest, icons, fonts…)
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached
