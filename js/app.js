@@ -213,9 +213,13 @@ window.handleAuth = async () => {
       const { data, error } = await supabase.auth.signUp({ email, password: pass })
       if (error) throw error
       if (data.user) {
-        await supabase.from('profiles').insert({
+        // A DB trigger (schema-v8) already creates this row on signup, so we
+        // upsert rather than insert: the display name typed here wins, and a
+        // duplicate never raises a 409. If the trigger is ever missing, the
+        // upsert still creates the row on its own.
+        await supabase.from('profiles').upsert({
           id: data.user.id, display_name: name, role: 'user', onboarding_complete: false
-        })
+        }, { onConflict: 'id' })
       } else {
         mount(`<div class="min-h-screen bg-gray-950 flex items-center justify-center p-8 text-center">
           <div class="space-y-4"><div class="text-5xl">📧</div>
