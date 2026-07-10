@@ -1,0 +1,12 @@
+{
+  "name": "family-fitness-hub",
+  "version": "2.0.0",
+  "description": "Family fitness PWA - zero cost, cross-platform",
+  "scripts": {
+    "build": "npx tailwindcss -i css/input.css -o css/tailwind.css --minify",
+    "dev": "npx tailwindcss -i css/input.css -o css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

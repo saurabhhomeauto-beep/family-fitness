@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Family Fitness Hub</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#030712" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="FitHub" />
+  <link rel="apple-touch-icon" href="/icons/icon.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS — generated at build time by Netlify (see netlify.toml + package.json) -->
+  <!-- Local dev: run `npm install && npm run dev` once to generate css/tailwind.css -->
+  <link rel="stylesheet" href="/css/tailwind.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background-color: #030712;
+      color: #f9fafb;
+      -webkit-tap-highlight-color: transparent;
+    }
+    :root { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 0; height: 0; }
+    /* Fallback: show a loader if CSS hasn't generated yet (local dev) */
+    #css-check { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- App root: all views are rendered here by app.js -->
+  <div id="app"></div>
+
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('[SW] Registered:', reg.scope))
+          .catch(err => console.warn('[SW] Registration failed:', err))
+      })
+    }
+  </script>
+
+  <!-- Chart.js (CDN, no bundler) — powers the weight trend chart on the History tab -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
+
+  <!-- Main application (ES Module) -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
